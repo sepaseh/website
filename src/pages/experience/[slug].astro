@@ -1,0 +1,33 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ArticleLayout from "@/components/ArticleLayout.astro";
+import { getExperiences } from "@/lib/career";
+
+export function getStaticPaths() {
+  return getExperiences().map((experience) => ({
+    params: { slug: experience.slug },
+    props: { experience }
+  }));
+}
+
+const { experience } = Astro.props;
+---
+
+<BaseLayout
+  title={`${experience.title} — Experience`}
+  description={experience.description}
+>
+  <ArticleLayout
+    eyebrow="Experience"
+    title={experience.title}
+    description={experience.description}
+    backHref="/experience"
+    backLabel="All experience"
+    meta={[
+      { label: "Role", value: experience.role },
+      { label: "Period", value: experience.duration },
+      { label: "Type", value: experience.employmentType }
+    ]}
+    html={experience.html}
+  />
+</BaseLayout>

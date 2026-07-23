@@ -1,0 +1,52 @@
+---
+type Props = {
+  eyebrow: string;
+  title: string;
+  description?: string;
+  backHref: string;
+  backLabel: string;
+  meta?: Array<{ label: string; value?: string }>;
+  html: string;
+};
+
+const {
+  eyebrow,
+  title,
+  description,
+  backHref,
+  backLabel,
+  meta = [],
+  html
+} = Astro.props;
+---
+
+<div class="article-page">
+  <header class="article-hero shell">
+    <a class="back-link" href={backHref}><span aria-hidden="true">←</span>{backLabel}</a>
+    <p class="eyebrow">{eyebrow}</p>
+    <h1>{title}</h1>
+    {description && <p class="article-lead">{description}</p>}
+    {
+      meta.filter((item) => item.value).length > 0 && (
+        <dl class="article-meta">
+          {meta
+            .filter((item) => item.value)
+            .map((item) => (
+              <div>
+                <dt>{item.label}</dt>
+                <dd>{item.value}</dd>
+              </div>
+            ))}
+        </dl>
+      )
+    }
+  </header>
+
+  <div class="shell article-grid">
+    <aside class="article-aside" aria-label="Page context">
+      <span>{eyebrow}</span>
+      <strong>{title}</strong>
+    </aside>
+    <article class="prose" set:html={html} />
+  </div>
+</div>

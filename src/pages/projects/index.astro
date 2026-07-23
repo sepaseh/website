@@ -1,0 +1,31 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import { getProjects } from "@/lib/career";
+
+const projects = getProjects();
+---
+
+<BaseLayout
+  title="Projects"
+  description="Selected software projects by Mahdi Sepaseh across blockchain, healthcare, hospitality, retail, and professional networking."
+>
+  <header class="listing-hero shell">
+    <p class="eyebrow">Projects</p>
+    <h1>Different domains. Deliberate solutions.</h1>
+    <p>
+      Selected work across blockchain, healthcare, hospitality, tourism,
+      retail, education, and professional networking.
+    </p>
+  </header>
+
+  <section class="listing-section shell">
+    <div class="project-list project-list-full">
+      {
+        projects.map((project, index) => (
+          <ProjectCard project={project} index={index} />
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

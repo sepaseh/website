@@ -1,0 +1,28 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ArticleLayout from "@/components/ArticleLayout.astro";
+import { getProjects } from "@/lib/career";
+
+export function getStaticPaths() {
+  return getProjects().map((project) => ({
+    params: { slug: project.slug },
+    props: { project }
+  }));
+}
+
+const { project } = Astro.props;
+---
+
+<BaseLayout
+  title={`${project.title} — Project`}
+  description={project.description}
+>
+  <ArticleLayout
+    eyebrow="Project"
+    title={project.title}
+    description={project.description}
+    backHref="/projects"
+    backLabel="All projects"
+    html={project.html}
+  />
+</BaseLayout>

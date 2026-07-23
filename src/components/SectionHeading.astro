@@ -1,0 +1,27 @@
+---
+type Props = {
+  eyebrow: string;
+  title: string;
+  copy?: string;
+  actionHref?: string;
+  actionLabel?: string;
+};
+
+const { eyebrow, title, copy, actionHref, actionLabel } = Astro.props;
+---
+
+<div class="section-heading">
+  <div>
+    <p class="eyebrow">{eyebrow}</p>
+    <h2>{title}</h2>
+    {copy && <p class="section-copy">{copy}</p>}
+  </div>
+  {
+    actionHref && actionLabel && (
+      <a class="text-link" href={actionHref}>
+        {actionLabel}
+        <span aria-hidden="true">↗</span>
+      </a>
+    )
+  }
+</div>

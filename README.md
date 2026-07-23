@@ -12,8 +12,8 @@ them into static pages.
 
 Optional environment variables:
 
-- `CAREER_REPOSITORY` â€” defaults to `sepaseh/career`
-- `CAREER_REF` â€” defaults to `main`
+- `CAREER_REPOSITORY` — defaults to `sepaseh/career`
+- `CAREER_REF` — defaults to `main`
 
 ## Development
 
@@ -27,4 +27,3 @@ npm run dev
 ```sh
 npm run build
 ```
-

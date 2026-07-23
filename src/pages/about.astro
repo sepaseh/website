@@ -1,0 +1,21 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ArticleLayout from "@/components/ArticleLayout.astro";
+import { getDocument } from "@/lib/career";
+
+const about = getDocument("about");
+---
+
+<BaseLayout
+  title="About"
+  description="About Mahdi Sepaseh, a senior software engineer with more than 17 years of experience."
+>
+  <ArticleLayout
+    eyebrow="About"
+    title="Engineering with context."
+    description="Seventeen years across products, industries, and technical eras—guided by curiosity, practical decisions, and a respect for maintainable software."
+    backHref="/"
+    backLabel="Home"
+    html={about.html}
+  />
+</BaseLayout>

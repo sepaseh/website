@@ -1,0 +1,32 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ExperienceRow from "@/components/ExperienceRow.astro";
+import { getExperiences } from "@/lib/career";
+
+const experiences = getExperiences();
+---
+
+<BaseLayout
+  title="Experience"
+  description="Mahdi Sepaseh's professional experience across frontend engineering, software architecture, and technical leadership."
+>
+  <header class="listing-hero shell">
+    <p class="eyebrow">Experience</p>
+    <h1>A career built through change.</h1>
+    <p>
+      From customer websites to complex product ecosystems, each chapter added
+      a different layer: implementation, architecture, discovery, delivery,
+      and leadership.
+    </p>
+  </header>
+
+  <section class="listing-section shell">
+    <div class="experience-list experience-list-full">
+      {
+        experiences.map((experience) => (
+          <ExperienceRow experience={experience} />
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

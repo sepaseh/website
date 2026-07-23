@@ -1,0 +1,130 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import ExperienceRow from "@/components/ExperienceRow.astro";
+import { getExperiences, getFeaturedProjects } from "@/lib/career";
+
+const experiences = getExperiences();
+const featuredProjects = getFeaturedProjects();
+---
+
+<BaseLayout>
+  <section class="hero shell">
+    <div class="hero-copy">
+      <p class="eyebrow">Senior Software Engineer · Mashhad, Iran</p>
+      <h1>
+        Building software around
+        <span>real problems.</span>
+      </h1>
+      <p class="hero-intro">
+        I design and build web applications, frontend systems, and digital
+        products—with 17+ years of experience turning complex business
+        requirements into maintainable software.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="/projects">Explore my work</a>
+        <a class="button button-secondary" href="mailto:m.sepaseh@gmail.com">
+          Start a conversation
+        </a>
+      </div>
+    </div>
+
+    <aside class="hero-panel" aria-label="Professional focus">
+      <div class="availability">
+        <span class="status-dot" aria-hidden="true"></span>
+        Open to meaningful work
+      </div>
+      <ol>
+        <li>
+          <span>01</span>
+          <strong>Frontend Architecture</strong>
+        </li>
+        <li>
+          <span>02</span>
+          <strong>System Design</strong>
+        </li>
+        <li>
+          <span>03</span>
+          <strong>Technical Leadership</strong>
+        </li>
+        <li>
+          <span>04</span>
+          <strong>Product Engineering</strong>
+        </li>
+      </ol>
+    </aside>
+  </section>
+
+  <section class="stats-band">
+    <div class="shell stats-grid">
+      <div><strong>17+</strong><span>Years building for the web</span></div>
+      <div><strong>7</strong><span>Professional chapters</span></div>
+      <div><strong>11</strong><span>Selected case studies</span></div>
+      <div><strong>1</strong><span>Principle: solve the right problem</span></div>
+    </div>
+  </section>
+
+  <section class="section shell">
+    <SectionHeading
+      eyebrow="Selected work"
+      title="Systems shaped by their context."
+      copy="A selection of products across blockchain, healthcare, hospitality, and professional networking."
+      actionHref="/projects"
+      actionLabel="View all projects"
+    />
+    <div class="project-list">
+      {
+        featuredProjects.map((project, index) => (
+          <ProjectCard project={project} index={index} />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section section-muted">
+    <div class="shell">
+      <SectionHeading
+        eyebrow="Experience"
+        title="From implementation to architecture."
+        copy="A career built through hands-on engineering, customer discovery, product thinking, and technical leadership."
+        actionHref="/experience"
+        actionLabel="Full experience"
+      />
+      <div class="experience-list">
+        {
+          experiences.slice(0, 4).map((experience) => (
+            <ExperienceRow experience={experience} />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="principles shell">
+    <div>
+      <p class="eyebrow">How I work</p>
+      <h2>Simplicity is an engineering decision.</h2>
+    </div>
+    <div class="principle-copy">
+      <p>
+        I start with the problem, not a preferred technology. The goal is
+        software that fits the product, team, and business—and can evolve with
+        all three.
+      </p>
+      <a class="text-link" href="/about">More about my approach <span>↗</span></a>
+    </div>
+  </section>
+
+  <section class="contact-band">
+    <div class="shell contact-inner">
+      <div>
+        <p class="eyebrow">Let’s talk</p>
+        <h2>Have a difficult product problem?</h2>
+      </div>
+      <a class="button button-light" href="mailto:m.sepaseh@gmail.com">
+        m.sepaseh@gmail.com
+      </a>
+    </div>
+  </section>
+</BaseLayout>

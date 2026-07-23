@@ -1,0 +1,21 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ArticleLayout from "@/components/ArticleLayout.astro";
+import { getDocument } from "@/lib/career";
+
+const resume = getDocument("resume");
+---
+
+<BaseLayout
+  title="Resume"
+  description="Resume of Mahdi Sepaseh, senior frontend engineer specializing in React, TypeScript, and frontend architecture."
+>
+  <ArticleLayout
+    eyebrow="Resume"
+    title="A concise professional overview."
+    description="Senior Frontend Engineer specializing in React, TypeScript, and frontend architecture."
+    backHref="/"
+    backLabel="Home"
+    html={resume.html}
+  />
+</BaseLayout>
