@@ -90,7 +90,8 @@ function sectionFrom(markdown: string, heading: string) {
 function plainText(markdown: string) {
   return markdown
     .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-    .replace(/[*_`>#-]/g, "")
+    .replace(/[*_`>#]/g, "")
+    .replace(/(^|\n)\s*-\s+/g, "$1")
     .replace(/\s+/g, " ")
     .trim();
 }

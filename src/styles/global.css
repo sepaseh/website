@@ -304,7 +304,7 @@ img {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .stats-grid > div {
@@ -827,6 +827,7 @@ img {
   }
 
   .stats-grid > div:nth-child(3) {
+    grid-column: 1 / -1;
     border-left: 1px solid rgba(255, 255, 255, 0.16);
   }
 
