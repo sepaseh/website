@@ -39,6 +39,7 @@ try {
     await writeFile(destination, content);
   }));
   // Replace the cache only after every source file has been read successfully.
+  await mkdir(path.dirname(outputDir), { recursive: true });
   await rm(outputDir, { recursive: true, force: true });
   await rename(path.join(staged, "content"), outputDir);
   await mkdir(downloads, { recursive: true });
