@@ -46,22 +46,28 @@ const featuredProjectSlugs = [
   "hospitality-guest-experience-and-iptv-platform"
 ];
 
-function readMarkdown(relativePath: string) {
-  return readFileSync(path.join(contentRoot, relativePath), "utf8");
+export type Locale = "en" | "fa";
+
+function readMarkdown(relativePath: string, locale: Locale = "en") {
+  return readFileSync(path.join(contentRoot, locale === "fa" ? "fa" : "", relativePath), "utf8");
 }
 
-function rewriteLinks(markdown: string) {
+function rewriteLinks(markdown: string, locale: Locale) {
+  const prefix = locale === "fa" ? "/fa" : "";
   return markdown
-    .replace(/\]\(experience\/([^)]+)\.md\)/g, "](/experience/$1)")
-    .replace(/\]\(projects\/([^)]+)\.md\)/g, "](/projects/$1)")
-    .replace(/\]\(\.\.\/experience\/([^)]+)\.md\)/g, "](/experience/$1)")
-    .replace(/\]\(\.\.\/projects\/([^)]+)\.md\)/g, "](/projects/$1)")
-    .replace(/\]\(about\.md\)/g, "](/about)")
-    .replace(/\]\(resume\.md\)/g, "](/resume)");
+    .replace(/\]\(experience\/([^)]+)\.md\)/g, `](${prefix}/experience/$1)`)
+    .replace(/\]\(projects\/([^)]+)\.md\)/g, `](${prefix}/projects/$1)`)
+    .replace(/\]\(\.\.\/experience\/([^)]+)\.md\)/g, `](${prefix}/experience/$1)`)
+    .replace(/\]\(\.\.\/projects\/([^)]+)\.md\)/g, `](${prefix}/projects/$1)`)
+    .replace(/\]\(about\.md\)/g, `](${prefix}/about)`)
+    .replace(/\]\(resume\.md\)/g, `](${prefix}/resume)`)
+    .replace(/\]\((?:\.\.\/)?skills\.md\)/g, `](${prefix}/skills)`)
+    .replace(/\]\((?:\.\.\/)?education\.md\)/g, `](${prefix}/education)`)
+    .replace(/\]\((?:\.\.\/)?output\/pdf\/([^)]*)\)/g, "](/downloads/$1)");
 }
 
-function render(markdown: string) {
-  return marked.parse(rewriteLinks(markdown), {
+function render(markdown: string, locale: Locale) {
+  return marked.parse(rewriteLinks(markdown, locale), {
     gfm: true,
     breaks: false
   }) as string;
@@ -80,7 +86,7 @@ function fieldFrom(markdown: string, label: string) {
 function sectionFrom(markdown: string, heading: string) {
   const match = markdown.match(
     new RegExp(
-      `^##\\s+${heading}\\s*$([\\s\\S]*?)(?=^##\\s+|(?![\\s\\S]))`,
+      `^##\\s+(?:${heading})\\s*$([\\s\\S]*?)(?=^##\\s+|(?![\\s\\S]))`,
       "im"
     )
   );
@@ -97,8 +103,8 @@ function plainText(markdown: string) {
 }
 
 function firstParagraph(markdown: string) {
-  const overview = sectionFrom(markdown, "Overview");
-  const source = overview || sectionFrom(markdown, "Work Context") || markdown;
+  const overview = sectionFrom(markdown, "Overview|معرفی");
+  const source = overview || sectionFrom(markdown, "Work Context|زمینه فعالیت") || markdown;
   return (
     source
       .split(/\n\s*\n/)
@@ -108,58 +114,58 @@ function firstParagraph(markdown: string) {
 }
 
 function stackFrom(markdown: string) {
-  const section = sectionFrom(markdown, "Technology Stack");
+  const section = sectionFrom(markdown, "Technology Stack|فناوری‌های استفاده‌شده|پشته فناوری");
   return section
     .split("\n")
     .map((line) => line.replace(/^\s*-\s*/, "").trim())
     .filter(Boolean);
 }
 
-function toEntry(directory: "experience" | "projects", slug: string): CareerEntry {
-  const markdown = readMarkdown(`${directory}/${slug}.md`);
+function toEntry(directory: "experience" | "projects", slug: string, locale: Locale): CareerEntry {
+  const markdown = readMarkdown(`${directory}/${slug}.md`, locale);
   return {
     slug,
     title: titleFrom(markdown),
     description: firstParagraph(markdown),
-    html: render(markdown),
-    role: fieldFrom(markdown, "Role"),
-    employmentType: fieldFrom(markdown, "Employment Type"),
-    duration: fieldFrom(markdown, "Duration"),
+    html: render(markdown, locale),
+    role: fieldFrom(markdown, locale === "fa" ? "سمت" : "Role"),
+    employmentType: fieldFrom(markdown, locale === "fa" ? "نوع همکاری" : "Employment Type"),
+    duration: fieldFrom(markdown, locale === "fa" ? "بازه زمانی" : "Duration"),
     stack: stackFrom(markdown)
   };
 }
 
-function existingSlugs(directory: "experience" | "projects") {
+function existingSlugs(directory: "experience" | "projects", locale: Locale) {
   return new Set(
-    readdirSync(path.join(contentRoot, directory))
+    readdirSync(path.join(contentRoot, locale === "fa" ? "fa" : "", directory))
       .filter((file) => file.endsWith(".md"))
       .map((file) => file.replace(/\.md$/, ""))
   );
 }
 
-export function getExperiences() {
-  const available = existingSlugs("experience");
-  return experienceOrder
+export function getExperiences(locale: Locale = "en") {
+  const available = existingSlugs("experience", locale);
+  return [...experienceOrder, ...[...available].filter(slug => !experienceOrder.includes(slug)).sort()]
     .filter((slug) => available.has(slug))
-    .map((slug) => toEntry("experience", slug));
+    .map((slug) => toEntry("experience", slug, locale));
 }
 
-export function getProjects() {
-  const available = existingSlugs("projects");
-  return projectOrder
+export function getProjects(locale: Locale = "en") {
+  const available = existingSlugs("projects", locale);
+  return [...projectOrder, ...[...available].filter(slug => !projectOrder.includes(slug)).sort()]
     .filter((slug) => available.has(slug))
-    .map((slug) => toEntry("projects", slug));
+    .map((slug) => toEntry("projects", slug, locale));
 }
 
-export function getFeaturedProjects() {
-  const projects = getProjects();
+export function getFeaturedProjects(locale: Locale = "en") {
+  const projects = getProjects(locale);
   return featuredProjectSlugs
     .map((slug) => projects.find((project) => project.slug === slug))
     .filter((project): project is CareerEntry => Boolean(project));
 }
 
-export function getDocument(name: "about" | "resume") {
-  const markdown = readMarkdown(`${name}.md`);
+export function getDocument(name: "about" | "resume" | "skills" | "education", locale: Locale = "en") {
+  const markdown = readMarkdown(`${name}.md`, locale);
   return {
     title: titleFrom(markdown),
     html: render(markdown)

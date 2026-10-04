@@ -43,7 +43,7 @@ const {
   </header>
 
   <div class="shell article-grid">
-    <aside class="article-aside" aria-label="Page context">
+    <aside class="article-aside" aria-label={Astro.url.pathname.startsWith("/fa") ? "اطلاعات صفحه" : "Page context"}>
       <span>{eyebrow}</span>
       <strong>{title}</strong>
     </aside>

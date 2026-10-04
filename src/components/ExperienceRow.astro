@@ -1,4 +1,6 @@
 ---
+const fa = Astro.url.pathname.startsWith("/fa");
+const prefix = fa ? "/fa" : "";
 import type { CareerEntry } from "@/lib/career";
 
 type Props = {
@@ -11,14 +13,14 @@ const { experience } = Astro.props;
 <article class="experience-row">
   <div class="experience-date">{experience.duration}</div>
   <div>
-    <h3><a href={`/experience/${experience.slug}`}>{experience.title}</a></h3>
+    <h3><a href={`${prefix}/experience/${experience.slug}`}>{experience.title}</a></h3>
     <p class="experience-role">{experience.role}</p>
   </div>
   <p class="experience-description">{experience.description}</p>
   <a
     class="row-arrow"
-    href={`/experience/${experience.slug}`}
-    aria-label={`Read about ${experience.title}`}
+    href={`${prefix}/experience/${experience.slug}`}
+    aria-label={fa ? `درباره ${experience.title}` : `Read about ${experience.title}`}
   >
     <span aria-hidden="true">↗</span>
   </a>

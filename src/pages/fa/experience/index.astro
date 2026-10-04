@@ -1,0 +1,30 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ExperienceRow from "@/components/ExperienceRow.astro";
+import { getExperiences } from "@/lib/career";
+
+const experiences = getExperiences("fa");
+---
+
+<BaseLayout
+  title="تجربه‌ها"
+  description="تجربه‌های حرفه‌ای مهدی سپاسه در مهندسی فرانت‌اند، معماری نرم‌افزار و رهبری فنی."
+>
+  <header class="listing-hero shell">
+    <p class="eyebrow">تجربه‌ها</p>
+    <h1>مسیری حرفه‌ای همراه با تحول.</h1>
+    <p>
+      از وب‌سایت‌های مشتریان تا اکوسیستم‌های پیچیده محصول؛ هر تجربه، لایه‌ای تازه از پیاده‌سازی، معماری، شناخت مسئله، تحویل و رهبری به مسیر حرفه‌ای من افزوده است.
+    </p>
+  </header>
+
+  <section class="listing-section shell">
+    <div class="experience-list experience-list-full">
+      {
+        experiences.map((experience) => (
+          <ExperienceRow experience={experience} />
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
