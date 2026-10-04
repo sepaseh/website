@@ -7,11 +7,15 @@ static site.
 
 The canonical content lives in
 [sepaseh/career](https://github.com/sepaseh/career). Before development and
-production builds, the site downloads the relevant Markdown files and renders
-them into static pages.
+production builds, the site syncs Markdown content and both ATS resume PDFs.
+When the sibling `../career` checkout is available, it uses its latest working
+files; otherwise it downloads them from GitHub. English pages live at `/` and
+Persian pages at `/fa/`, with a page-preserving language switch, RTL layout, and
+locally hosted Vazirmatn. Skills and education are accessible from About.
 
 Optional environment variables:
 
+- `CAREER_SOURCE_DIR` — explicit local career checkout path
 - `CAREER_REPOSITORY` — defaults to `sepaseh/career`
 - `CAREER_REF` — defaults to `main`
 

@@ -1,0 +1,31 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import { getProjects } from "@/lib/career";
+
+const projects = getProjects("fa");
+---
+
+<BaseLayout
+  title="پروژه‌ها"
+  description="پروژه‌های منتخب مهدی سپاسه در بلاکچین، سلامت، هتلداری، خرده‌فروشی و شبکه‌سازی حرفه‌ای."
+>
+  <header class="listing-hero shell">
+    <p class="eyebrow">پروژه‌ها</p>
+    <h1>حوزه‌های متنوع، راهکارهای سنجیده.</h1>
+    <p>
+      پروژه‌های منتخب across blockchain, healthcare, hospitality, tourism,
+      retail, education, and professional networking.
+    </p>
+  </header>
+
+  <section class="listing-section shell">
+    <div class="project-list project-list-full">
+      {
+        projects.map((project, index) => (
+          <ProjectCard project={project} index={index} />
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

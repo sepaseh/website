@@ -1,37 +1,26 @@
 ---
 import "@/styles/global.css";
-
-type Props = {
-  title?: string;
-  description?: string;
-  canonicalPath?: string;
-};
-
-const {
-  title = "Mahdi Sepaseh — Senior Frontend Engineer",
-  description = "Senior frontend engineer focused on frontend architecture, system design, technical leadership, and product engineering.",
-  canonicalPath = Astro.url.pathname
-} = Astro.props;
-
-const pageTitle = title.includes("Mahdi Sepaseh")
-  ? title
-  : `${title} — Mahdi Sepaseh`;
+import "@fontsource/vazirmatn/400.css";
+import "@fontsource/vazirmatn/500.css";
+import "@fontsource/vazirmatn/700.css";
+type Props = { title?: string; description?: string; canonicalPath?: string };
+const fa = Astro.url.pathname.startsWith("/fa/") || Astro.url.pathname === "/fa";
+const prefix = fa ? "/fa" : "";
+const name = fa ? "مهدی سپاسه" : "Mahdi Sepaseh";
+const role = fa ? "مهندس ارشد نرم‌افزار" : "Senior Software Engineer";
+const { title = `${name} — ${role}`, description = fa ? "مهندس ارشد نرم‌افزار با تمرکز بر معماری فرانت‌اند، طراحی سیستم، رهبری فنی و مهندسی محصول." : "Senior software engineer focused on frontend architecture, system design, technical leadership, and product engineering.", canonicalPath = Astro.url.pathname } = Astro.props;
+const pageTitle = title.includes(name) ? title : `${title} — ${name}`;
 const canonicalUrl = new URL(canonicalPath, Astro.site);
-const currentPath = Astro.url.pathname;
-
+const otherPath = Astro.url.pathname.includes("404") ? (fa ? "/" : "/fa/") : fa ? Astro.url.pathname.replace(/^\/fa/, "") || "/" : `/fa${Astro.url.pathname === "/" ? "/" : Astro.url.pathname}`;
 const navItems = [
-  { href: "/about", label: "About" },
-  { href: "/resume", label: "Resume" },
-  { href: "/experience", label: "Experience" },
-  { href: "/projects", label: "Projects" }
+  { href: `${prefix}/about`, label: fa ? "درباره من" : "About" },
+  { href: `${prefix}/resume`, label: fa ? "رزومه" : "Resume" },
+  { href: `${prefix}/experience`, label: fa ? "تجربه‌ها" : "Experience" },
+  { href: `${prefix}/projects`, label: fa ? "پروژه‌ها" : "Projects" }
 ];
-
-const isActive = (href: string) =>
-  href === "/" ? currentPath === "/" : currentPath.startsWith(href);
 ---
-
 <!doctype html>
-<html lang="en">
+<html lang={fa ? "fa" : "en"} dir={fa ? "rtl" : "ltr"}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -39,7 +28,10 @@ const isActive = (href: string) =>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#f4f1e9" />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang={fa ? "en" : "fa"} href={new URL(otherPath, Astro.site)} />
+    <link rel="alternate" hreflang={fa ? "fa" : "en"} href={canonicalUrl} />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content={fa ? "fa_IR" : "en_US"} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
@@ -49,53 +41,19 @@ const isActive = (href: string) =>
     <title>{pageTitle}</title>
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="site-header">
-      <div class="shell header-inner">
-        <a class="wordmark" href="/" aria-label="Mahdi Sepaseh, home">
-          <span class="wordmark-mark" aria-hidden="true">MS</span>
-          <span>Mahdi Sepaseh</span>
-        </a>
-
-        <nav aria-label="Primary navigation">
-          <ul class="nav-list">
-            {
-              navItems.map((item) => (
-                <li>
-                  <a
-                    href={item.href}
-                    aria-current={isActive(item.href) ? "page" : undefined}
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </nav>
-      </div>
-    </header>
-
-    <main id="main-content">
-      <slot />
-    </main>
-
-    <footer class="site-footer">
-      <div class="shell footer-grid">
-        <div>
-          <p class="footer-name">Mahdi Sepaseh</p>
-          <p>Senior Frontend Engineer</p>
-        </div>
-        <div class="footer-links">
-          <a href="mailto:m.sepaseh@gmail.com">Email</a>
-          <a href="https://www.linkedin.com/in/sepaseh/" rel="me">LinkedIn</a>
-          <a href="https://github.com/sepaseh" rel="me">GitHub</a>
-        </div>
-        <p class="footer-note">
-          Content sourced from the
-          <a href="https://github.com/sepaseh/career">career repository</a>.
-        </p>
-      </div>
-    </footer>
+    <a class="skip-link" href="#main-content">{fa ? "رفتن به محتوا" : "Skip to content"}</a>
+    <header class="site-header"><div class="shell header-inner">
+      <a class="wordmark" href={`${prefix}/`} aria-label={fa ? "مهدی سپاسه، خانه" : "Mahdi Sepaseh, home"}><span class="wordmark-mark" aria-hidden="true">MS</span><span>{name}</span></a>
+      <nav aria-label={fa ? "منوی اصلی" : "Primary navigation"}><ul class="nav-list">
+        {navItems.map(item => <li><a href={item.href} aria-current={Astro.url.pathname.startsWith(item.href) ? "page" : undefined}>{item.label}</a></li>)}
+        <li><a class="language-switch" href={otherPath} lang={fa ? "en" : "fa"} hreflang={fa ? "en" : "fa"}>{fa ? "English" : "فارسی"}</a></li>
+      </ul></nav>
+    </div></header>
+    <main id="main-content"><slot /></main>
+    <footer class="site-footer"><div class="shell footer-grid">
+      <div><p class="footer-name">{name}</p><p>{role}</p></div>
+      <div class="footer-links"><a href="mailto:m.sepaseh@gmail.com">{fa ? "ایمیل" : "Email"}</a><a href="https://www.linkedin.com/in/sepaseh/" rel="me">LinkedIn</a><a href="https://github.com/sepaseh" rel="me">GitHub</a></div>
+      <p class="footer-note">{fa ? "محتوا از " : "Content sourced from the "}<a href="https://github.com/sepaseh/career">{fa ? "مخزن مسیر حرفه‌ای" : "career repository"}</a>.</p>
+    </div></footer>
   </body>
 </html>

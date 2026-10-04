@@ -1,0 +1,7 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ArticleLayout from "@/components/ArticleLayout.astro";
+import { getDocument } from "@/lib/career";
+const document = getDocument("skills", "en");
+---
+<BaseLayout title={document.title}><ArticleLayout eyebrow="Skills" title={document.title} backHref="/" backLabel="Home" html={document.html} /></BaseLayout>

@@ -1,0 +1,125 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import ExperienceRow from "@/components/ExperienceRow.astro";
+import { getExperiences, getFeaturedProjects, getProjects } from "@/lib/career";
+
+const experiences = getExperiences("fa");
+const featuredProjects = getFeaturedProjects("fa");
+---
+
+<BaseLayout>
+  <section class="hero shell">
+    <div class="hero-copy">
+      <p class="eyebrow">مهندس ارشد نرم‌افزار · مشهد، ایران</p>
+      <h1>
+        ساخت نرم‌افزار برای
+        <span>مسئله‌های واقعی.</span>
+      </h1>
+      <p class="hero-intro">
+        برنامه‌های وب، سیستم‌های فرانت‌اند و محصولات دیجیتال را طراحی و توسعه می‌دهم؛ با بیش از ۱۷ سال تجربه در تبدیل نیازمندی‌های پیچیده کسب‌وکار به نرم‌افزار قابل نگهداری.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="/fa/projects">مشاهده پروژه‌ها</a>
+        <a class="button button-secondary" href="mailto:m.sepaseh@gmail.com">
+          شروع گفتگو
+        </a>
+      </div>
+    </div>
+
+    <aside class="hero-panel" aria-label="حوزه‌های تخصصی">
+      <div class="availability">
+        <span class="status-dot" aria-hidden="true"></span>
+        آماده همکاری‌های ارزشمند
+      </div>
+      <ol>
+        <li>
+          <span>01</span>
+          <strong>معماری فرانت‌اند</strong>
+        </li>
+        <li>
+          <span>02</span>
+          <strong>طراحی سیستم</strong>
+        </li>
+        <li>
+          <span>03</span>
+          <strong>رهبری فنی</strong>
+        </li>
+        <li>
+          <span>04</span>
+          <strong>مهندسی محصول</strong>
+        </li>
+      </ol>
+    </aside>
+  </section>
+
+  <section class="stats-band">
+    <div class="shell stats-grid">
+      <div><strong>17+</strong><span>سال تجربه در توسعه وب</span></div>
+      <div><strong>{experiences.length}</strong><span>تجربه حرفه‌ای</span></div>
+      <div><strong>{getProjects("fa").length}</strong><span>پروژه منتخب</span></div>
+    </div>
+  </section>
+
+  <section class="section shell">
+    <SectionHeading
+      eyebrow="پروژه‌های منتخب"
+      title="سیستم‌هایی متناسب با نیاز واقعی."
+      copy="منتخبی از محصولات در حوزه‌های بلاکچین، سلامت، هتلداری و شبکه‌سازی حرفه‌ای."
+      actionHref="/fa/projects"
+      actionLabel="همه پروژه‌ها"
+    />
+    <div class="project-list">
+      {
+        featuredProjects.map((project, index) => (
+          <ProjectCard project={project} index={index} />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section section-muted">
+    <div class="shell">
+      <SectionHeading
+        eyebrow="تجربه‌ها"
+        title="از پیاده‌سازی تا معماری."
+        copy="مسیری حرفه‌ای با توسعه عملی، شناخت مشتری، نگاه محصول و رهبری فنی."
+        actionHref="/fa/experience"
+        actionLabel="همه تجربه‌ها"
+      />
+      <div class="experience-list">
+        {
+          experiences.slice(0, 4).map((experience) => (
+            <ExperienceRow experience={experience} />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="principles shell">
+    <div>
+      <p class="eyebrow">رویکرد من</p>
+      <h2>سادگی یک تصمیم مهندسی است.</h2>
+    </div>
+    <div class="principle-copy">
+      <p>
+        از شناخت مسئله آغاز می‌کنم. هدف، نرم‌افزاری متناسب با محصول، تیم و کسب‌وکار است که بتواند همراه با هر سه تکامل پیدا کند.
+      </p>
+      <a class="text-link" href="/fa/about">درباره رویکرد من <span>↗</span></a>
+    </div>
+  </section>
+
+  <section class="contact-band">
+    <div class="shell contact-inner">
+      <div>
+        <p class="eyebrow">گفتگو کنیم</p>
+        <h2>با مسئله‌ای پیچیده در محصول روبه‌رو هستید؟</h2>
+      </div>
+      <a class="button button-light" href="mailto:m.sepaseh@gmail.com">
+        m.sepaseh@gmail.com
+      </a>
+    </div>
+  </section>
+</BaseLayout>

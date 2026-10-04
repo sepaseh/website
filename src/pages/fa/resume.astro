@@ -1,0 +1,22 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ArticleLayout from "@/components/ArticleLayout.astro";
+import { getDocument } from "@/lib/career";
+
+const resume = getDocument("resume", "fa");
+---
+
+<BaseLayout
+  title="رزومه"
+  description="رزومه مهدی سپاسه، مهندس ارشد فرانت‌اند با تخصص در React، نوع همکاریScript و معماری فرانت‌اند."
+>
+  <div class="shell resume-download"><a class="button button-primary" href="/downloads/mahdi-sepaseh-resume-ats-fa.pdf" download>دریافت رزومه PDF</a></div>
+  <ArticleLayout
+    eyebrow="رزومه"
+    title="مروری کوتاه بر مسیر حرفه‌ای."
+    description="مهندس ارشد فرانت‌اند با تخصص در React، نوع همکاریScript و معماری فرانت‌اند."
+    backHref="/fa/"
+    backLabel="خانه"
+    html={resume.html}
+  />
+</BaseLayout>

@@ -3,7 +3,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import ExperienceRow from "@/components/ExperienceRow.astro";
-import { getExperiences, getFeaturedProjects } from "@/lib/career";
+import { getExperiences, getFeaturedProjects, getProjects } from "@/lib/career";
 
 const experiences = getExperiences();
 const featuredProjects = getFeaturedProjects();
@@ -12,7 +12,7 @@ const featuredProjects = getFeaturedProjects();
 <BaseLayout>
   <section class="hero shell">
     <div class="hero-copy">
-      <p class="eyebrow">Senior Frontend Engineer · Mashhad, Iran</p>
+      <p class="eyebrow">Senior Software Engineer · Mashhad, Iran</p>
       <h1>
         Building software around
         <span>real problems.</span>
@@ -59,8 +59,8 @@ const featuredProjects = getFeaturedProjects();
   <section class="stats-band">
     <div class="shell stats-grid">
       <div><strong>17+</strong><span>Years building for the web</span></div>
-      <div><strong>7</strong><span>Professional chapters</span></div>
-      <div><strong>11</strong><span>Selected case studies</span></div>
+      <div><strong>{experiences.length}</strong><span>Professional chapters</span></div>
+      <div><strong>{getProjects().length}</strong><span>Selected case studies</span></div>
     </div>
   </section>
 

@@ -1,0 +1,22 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ArticleLayout from "@/components/ArticleLayout.astro";
+import { getDocument } from "@/lib/career";
+
+const about = getDocument("about", "fa");
+---
+
+<BaseLayout
+  title="درباره من"
+  description="درباره مهدی سپاسه، مهندس ارشد نرم‌افزار با بیش از ۱۷ سال تجربه."
+>
+  <div class="shell document-links"><a class="text-link" href="/fa/skills">مهارت‌ها</a><a class="text-link" href="/fa/education">تحصیلات</a></div>
+  <ArticleLayout
+    eyebrow="درباره من"
+    title="مهندسی با شناخت مسئله."
+    description="بیش از هفده سال فعالیت در محصولات و صنایع مختلف، با کنجکاوی، تصمیم‌های عملی و توجه به قابلیت نگهداری نرم‌افزار."
+    backHref="/fa/"
+    backLabel="خانه"
+    html={about.html}
+  />
+</BaseLayout>
