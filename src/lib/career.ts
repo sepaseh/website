@@ -26,6 +26,8 @@ const experienceOrder = [
 ];
 
 const projectOrder = [
+  "digital-bank-mellat",
+  "enterprise-resource-planning",
   "multi-signature-crypto-wallet-ecosystem",
   "digital-pathology-education-and-interactive-examination-platform",
   "multi-vendor-tour-travel-reservation-platform",
@@ -168,6 +170,6 @@ export function getDocument(name: "about" | "resume" | "skills" | "education", l
   const markdown = readMarkdown(`${name}.md`, locale);
   return {
     title: titleFrom(markdown),
-    html: render(markdown)
+    html: render(markdown, locale)
   };
 }
